@@ -1,0 +1,70 @@
+<div class="grid grid-rows-[100px_1fr_100px] h-screen">
+  <header class="flex flex-col items-start justify-center">
+    <h1 class="text-2xl">Minha lista</h1>
+    <div class="items-center gap-2 hidden">
+      <h2 class="text-amber-400 text-2xl">Thursday 11</h2>
+      <button
+        class="rounded-full w-8 h-8 flex items-center justify-center bg-stone-200 active:brightness-105"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.5306 18.9694C15.6003 19.039 15.6556 19.1218 15.6933 19.2128C15.731 19.3039 15.7504 19.4014 15.7504 19.5C15.7504 19.5985 15.731 19.6961 15.6933 19.7872C15.6556 19.8782 15.6003 19.9609 15.5306 20.0306C15.461 20.1003 15.3782 20.1556 15.2872 20.1933C15.1961 20.231 15.0986 20.2504 15 20.2504C14.9015 20.2504 14.8039 20.231 14.7128 20.1933C14.6218 20.1556 14.5391 20.1003 14.4694 20.0306L6.96938 12.5306C6.89965 12.461 6.84433 12.3782 6.80659 12.2872C6.76885 12.1961 6.74942 12.0986 6.74942 12C6.74942 11.9014 6.76885 11.8038 6.80659 11.7128C6.84433 11.6217 6.89965 11.539 6.96938 11.4694L14.4694 3.96936C14.6101 3.82863 14.801 3.74957 15 3.74957C15.199 3.74957 15.3899 3.82863 15.5306 3.96936C15.6714 4.1101 15.7504 4.30097 15.7504 4.49999C15.7504 4.69901 15.6714 4.88988 15.5306 5.03061L8.56032 12L15.5306 18.9694Z"
+            fill="black"
+          />
+        </svg>
+      </button>
+      <button
+        class="rounded-full w-8 h-8 flex items-center justify-center bg-stone-200 active:brightness-105"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.96915 5.03061C6.89947 4.96092 6.84419 4.8782 6.80648 4.78715C6.76877 4.69611 6.74936 4.59853 6.74936 4.49998C6.74936 4.40143 6.76877 4.30385 6.80648 4.21281C6.84419 4.12176 6.89947 4.03904 6.96915 3.96935C7.03883 3.89967 7.12156 3.8444 7.2126 3.80669C7.30365 3.76897 7.40123 3.74956 7.49978 3.74956C7.59832 3.74956 7.6959 3.76897 7.78695 3.80669C7.87799 3.8444 7.96072 3.89967 8.0304 3.96935L15.5304 11.4694C15.6001 11.539 15.6555 11.6217 15.6932 11.7128C15.7309 11.8038 15.7504 11.9014 15.7504 12C15.7504 12.0985 15.7309 12.1961 15.6932 12.2872C15.6555 12.3782 15.6001 12.461 15.5304 12.5306L8.0304 20.0306C7.88967 20.1713 7.6988 20.2504 7.49978 20.2504C7.30075 20.2504 7.10988 20.1713 6.96915 20.0306C6.82842 19.8899 6.74936 19.699 6.74936 19.5C6.74936 19.301 6.82842 19.1101 6.96915 18.9694L13.9395 12L6.96915 5.03061Z"
+            fill="black"
+          />
+        </svg>
+      </button>
+    </div>
+  </header>
+  <main>
+    <div class="flex flex-col gap-2">
+      @for (todo of todos; track $index) {
+      <label
+        class="flex items-center gap-2 rounded-lg bg-stone-200 px-4 py-3 select-none active:brightness-105"
+      >
+        <app-checkbox [active]="todo.completed" (check)="onCheckboxChange(todo.id)" />
+        <span class="w-full">{{ todo.label }}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 fill-stone-600"
+          viewBox="0 0 256 256"
+        >
+          <path
+            d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z"
+          ></path>
+        </svg>
+      </label>
+      }
+    </div>
+  </main>
+  <footer class="flex items-center gap-2">
+    <app-input (valueEmit)="onInputChange($event)" [value]="value" />
+    <button
+      class="bg-stone-600 text-white px-5 py-3 rounded-lg active:brightness-110"
+      (click)="onSubmit()"
+    >
+      Add
+    </button>
+  </footer>
+</div>

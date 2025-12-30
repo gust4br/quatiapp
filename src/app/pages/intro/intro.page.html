@@ -1,0 +1,32 @@
+<img src="/assets/background.png" alt="bg" class="bg-img" />
+<section
+  class="w-full h-screen grid sm:grid-rows-[1fr_0.5fr] xl:grid-cols-2 items-center justify-center sm:max-w-xl lg:max-w-3xl"
+>
+  <h1 class="text-4xl md:text-5xl text-left font-medium">
+    Pick some new <br />
+    habits to get <br />
+    started
+  </h1>
+  <div class="flex flex-col gap-4">
+    <h2 class="uppercase text-sm text-amber-300 font-medium">Recommended</h2>
+    <ul class="flex flex-wrap gap-2">
+      @for (option of options; track $index) {
+      <li
+        class="text-stone-800 w-fit rounded-full px-5 py-3 active:brightness-105 select-none"
+        [ngClass]="{
+          'bg-amber-300': selectedOptions.includes(option),
+          'bg-stone-200': !selectedOptions.includes(option)
+        }"
+        (click)="onOptionSelected(option)"
+      >
+        {{ option.label }}
+      </li>
+      }
+    </ul>
+    <app-button
+      customClass="w-full rounded-full bg-red-50"
+      text="Continue →"
+      (click)="onSubmit()"
+    />
+  </div>
+</section>

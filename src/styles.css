@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+@import "tailwindcss";
+
+@theme {
+  --light-bg: #f9f5f4;
+}
+
+body {
+  background-color: var(--light-bg);
+  font-family: Poppins, sans-serif;
+  overflow: hidden;
+}
+
+.bg-img {
+  position: absolute;
+  top: -70vh;
+  left: -80vh;
+  z-index: -1;
+  min-width: 200vh;
+  min-height: 200vh;
+  object-fit: none;
+  user-select: none;
+  pointer-events: none;
+}
