@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   imports: [ButtonComponent, CommonModule],
   templateUrl: './intro.page.html',
 })
-export class IntroPage implements OnInit{
+export class IntroPage implements OnInit {
   private readonly todoService = inject(TodoService);
   private readonly router = inject(Router);
 

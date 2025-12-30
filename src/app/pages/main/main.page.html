@@ -40,21 +40,12 @@
   <main>
     <div class="flex flex-col gap-2">
       @for (todo of todos; track $index) {
-      <label
-        class="flex items-center gap-2 rounded-lg bg-stone-200 px-4 py-3 select-none active:brightness-105"
-      >
-        <app-checkbox [active]="todo.completed" (check)="onCheckboxChange(todo.id)" />
-        <span class="w-full">{{ todo.label }}</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 fill-stone-600"
-          viewBox="0 0 256 256"
-        >
-          <path
-            d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z"
-          ></path>
-        </svg>
-      </label>
+        <app-todo-item
+          [todo]="todo"
+          [index]="$index"
+          (check)="onCheckboxChange($event)"
+          (delete)="onDelete($event)"
+        ></app-todo-item>
       }
     </div>
   </main>

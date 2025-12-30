@@ -12,7 +12,7 @@
     <ul class="flex flex-wrap gap-2">
       @for (option of options; track $index) {
       <li
-        class="text-stone-800 w-fit rounded-full px-5 py-3 active:brightness-105 select-none"
+        class="text-stone-800 w-fit rounded-full px-5 py-3 active:brightness-105 select-none cursor-pointer"
         [ngClass]="{
           'bg-amber-300': selectedOptions.includes(option),
           'bg-stone-200': !selectedOptions.includes(option)
