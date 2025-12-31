@@ -1,5 +1,5 @@
-<div class="grid grid-rows-[100px_1fr_100px] h-screen">
-  <header class="flex flex-col items-start justify-center">
+<div class="grid grid-rows-[100px_1fr_100px] w-full h-screen p-4 sm:p-0">
+  <header class="flex flex-col items-start justify-center w-full">
     <h1 class="text-2xl">Minha lista</h1>
     <div class="items-center gap-2 hidden">
       <h2 class="text-amber-400 text-2xl">Thursday 11</h2>
@@ -37,8 +37,8 @@
       </button>
     </div>
   </header>
-  <main>
-    <div class="flex flex-col gap-2">
+  <main class="flex w-full">
+    <div class="flex flex-col gap-2 w-full">
       @for (todo of todos; track $index) {
         <app-todo-item
           [todo]="todo"
@@ -49,10 +49,10 @@
       }
     </div>
   </main>
-  <footer class="flex items-center gap-2">
-    <app-input (valueEmit)="onInputChange($event)" [value]="value" />
+  <footer class="w-fit flex items-center gap-2">
+    <app-input class="w-full" (valueEmit)="onInputChange($event)" [value]="value" />
     <button
-      class="bg-stone-600 text-white px-5 py-3 rounded-lg active:brightness-110"
+      class="text-center bg-stone-600 text-white px-5 py-3 rounded-lg active:brightness-110 cursor-pointer"
       (click)="onSubmit()"
     >
       Add

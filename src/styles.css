@@ -22,3 +22,7 @@ body {
   user-select: none;
   pointer-events: none;
 }
+
+app-main {
+  width: 100%;;
+}
