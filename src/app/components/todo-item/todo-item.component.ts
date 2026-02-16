@@ -18,9 +18,11 @@ export class TodoItemComponent implements OnInit {
   quantity = signal(0);
   value = signal<string>('0,00');
 
-  showBackdrop = false;
+  showDeleteBackdrop = false;
+  showCompleteBackdrop = false;
 
   DELETE_THRESHOLD = -200;
+  COMPLETE_THRESHOLD = 200;
 
   formatNumberToBRL(value: number): string {
     return new Intl.NumberFormat('pt-BR', {
@@ -32,7 +34,7 @@ export class TodoItemComponent implements OnInit {
   formatBRLToNumber(value: string): number {
     return parseFloat(value.replace(/\s/g, '').replace(',', '.'));
   }
-  
+
   formatNumberToBRLString(value: number): string {
     return String(value).replace('.', ',');
   }
@@ -72,8 +74,16 @@ export class TodoItemComponent implements OnInit {
 
   onDragMoved(event: CdkDragMove) {
     const x = event.source.getFreeDragPosition().x;
-    if (x < 0) this.showBackdrop = true;
-    else this.showBackdrop = false;    
+    if (x < 0) {
+      this.showDeleteBackdrop = true;
+      this.showCompleteBackdrop = false;
+    } else if (x > 0) {
+      this.showCompleteBackdrop = true;
+      this.showDeleteBackdrop = false;
+    } else {
+      this.showDeleteBackdrop = false;
+      this.showCompleteBackdrop = false;
+    }
   }
 
   onDragEnd(event: CdkDragEnd) {
@@ -81,6 +91,8 @@ export class TodoItemComponent implements OnInit {
 
     if (x < this.DELETE_THRESHOLD) {
       this.delete.emit(this.todo.id);
+    } else if (x > this.COMPLETE_THRESHOLD) {
+      this.check.emit(this.todo.id);
     }
     
     event.source.reset();
