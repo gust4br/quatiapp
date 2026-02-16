@@ -11,43 +11,45 @@
       formControlName="label"
     />
   </div>
-  <div class="flex items-center gap-1">
-    <div class="flex items-center">
-      <button
-        class="h-9 rounded-l border border-r-0 border-stone-300 bg-stone-100 px-2 py-1 cursor-pointer"
-        type="button"
-        (click)="quantityChange(1)"
-      >
-        +
-      </button>
-      <input
-        type="text"
-        class="h-9 bg-white w-10 text-center border border-stone-300 px-2 py-1 placeholder:text-stone-400"
-        formControlName="quantity"
-      />
-      <button
-        class="h-9 rounded-r border border-l-0 border-stone-300 bg-stone-100 px-2 py-1 cursor-pointer"
-        type="button"
-        (click)="quantityChange(-1)"
-      >
-        -
-      </button>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-1">
+      <div class="flex items-center">
+        <button
+          class="h-9 rounded-l border border-r-0 border-stone-300 bg-stone-100 px-2 py-1 cursor-pointer"
+          type="button"
+          (click)="quantityChange(1)"
+        >
+          +
+        </button>
+        <input
+          type="text"
+          class="h-9 bg-white w-10 text-center border border-stone-300 px-2 py-1 placeholder:text-stone-400"
+          formControlName="quantity"
+        />
+        <button
+          class="h-9 rounded-r border border-l-0 border-stone-300 bg-stone-100 px-2 py-1 cursor-pointer"
+          type="button"
+          (click)="quantityChange(-1)"
+        >
+          -
+        </button>
+      </div>
+      <span>*</span>
+      <label class="flex items-center">
+        <span
+          class="h-9 px-2 py-1 block rounded-l border border-stone-300 bg-stone-100"
+          >R$</span
+        >
+        <input
+          type="text"
+          placeholder="0,00"
+          formControlName="value"
+          inputmode="decimal"
+          autocomplete="off"
+          class="h-9 w-20 bg-white rounded-r border border-l-0 border-stone-300 px-2 py-1 placeholder:text-stone-400"
+        />
+      </label>
     </div>
-    <span>*</span>
-    <label class="flex items-center">
-      <span
-        class="h-9 px-2 py-1 block rounded-l border border-stone-300 bg-stone-100"
-        >R$</span
-      >
-      <input
-        type="text"
-        placeholder="0,00"
-        formControlName="value"
-        inputmode="decimal"
-        autocomplete="off"
-        class="h-9 w-20 bg-white rounded-r border border-l-0 border-stone-300 px-2 py-1 placeholder:text-stone-400"
-      />
-    </label>
     <span>= {{ getTotalValue() }}</span>
   </div>
   <button

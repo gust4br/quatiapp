@@ -32,6 +32,7 @@ export class TodoItemComponent implements OnInit {
   formatBRLToNumber(value: string): number {
     return parseFloat(value.replace(/\s/g, '').replace(',', '.'));
   }
+  
   formatNumberToBRLString(value: number): string {
     return String(value).replace('.', ',');
   }

@@ -4,7 +4,6 @@ import { Component, EventEmitter, input, model, Output } from '@angular/core';
   selector: 'app-checkbox',
   imports: [],
   templateUrl: './checkbox.component.html',
-  styleUrl: './checkbox.component.css'
 })
 export class CheckboxComponent {
   active = input(false);
