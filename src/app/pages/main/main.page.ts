@@ -1,48 +1,49 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { InputComponent } from '../../components/input/input.component';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TodoItem } from '../../types/TodoItem.dto';
 import { TodoItemComponent } from '../../components/todo-item/todo-item.component';
 import { Router } from '@angular/router';
+import { TodoFormComponent } from "../../components/todo-form/todo-form.component";
+import { ResumeComponent } from "../../components/resume/resume.component";
 
 @Component({
   selector: 'app-main',
-  imports: [TodoItemComponent, InputComponent],
+  imports: [TodoItemComponent, TodoFormComponent, ResumeComponent],
   templateUrl: './main.page.html',
 })
 export class MainPage implements OnInit {
   private readonly router = inject(Router);
   private readonly todoService = inject(TodoService);
-  todos: TodoItem[] = [];
+  todos = signal<TodoItem[]>([]);
   value: string = '';
 
   onInputChange(value: string): void {
     this.value = value;
   }
 
-  onSubmit(): void {
-    if (!this.value.trim()) {
-      return;
-    }
-    this.todoService.push(this.value);
-    this.todos = this.todoService.getAll();
-    this.value = '';
+  onSubmit(todo: TodoItem): void {
+    this.todoService.push(todo);
+    this.todos.update(todos => [...todos, todo]);
   }
 
   onCheckboxChange(id: string): void {
     this.todoService.complete(id);
-    this.todos = this.todoService.getAll();
+    this.todos.set(this.todoService.getAll());
   }
 
   onDelete(id: string): void {
     this.todoService.remove(id);
-    this.todos = this.todoService.getAll();
+    this.todos.set(this.todoService.getAll());
+  }
+
+  onUpdateTodo(newTodo: TodoItem): void {
+    this.todoService.update(newTodo);
+    this.todos.set(this.todoService.getAll());
   }
 
   ngOnInit(): void {
-    this.todos = this.todoService.getAll();
-
-    if (this.todos.length === 0) {
+    this.todos.set(this.todoService.getAll());
+    if (this.todos().length === 0) {
       this.router.navigate(['/get-started']);
     }
   }

@@ -1,5 +1,7 @@
 export interface TodoItem {
 	id: string,
 	label: string,
-	completed: boolean
+	completed: boolean,
+	quantity: number,
+	value: number
 } 

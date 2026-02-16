@@ -15,18 +15,18 @@ export class IntroPage implements OnInit {
   private readonly router = inject(Router);
 
   options: TodoItem[] = [
-    { id: crypto.randomUUID(), label: 'Exercise', completed: false },
-    { id: crypto.randomUUID(), label: 'Read a book', completed: false },
-    { id: crypto.randomUUID(), label: 'Meditate', completed: false },
-    { id: crypto.randomUUID(), label: 'Cook a meal', completed: false },
-    { id: crypto.randomUUID(), label: 'Watch a movie', completed: false },
-    { id: crypto.randomUUID(), label: 'Learn a new skill', completed: false },
-    { id: crypto.randomUUID(), label: 'Call a friend', completed: false },
-    { id: crypto.randomUUID(), label: 'Go for a walk', completed: false },
-    { id: crypto.randomUUID(), label: 'Review goals', completed: false },
-    { id: crypto.randomUUID(), label: 'Plan your day', completed: false },
-    { id: crypto.randomUUID(), label: 'Practice a hobby', completed: false },
-    { id: crypto.randomUUID(), label: 'Organize your space', completed: false },
+    { id: crypto.randomUUID(), label: 'Batata Frita', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Alho', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Arroz', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Coca Cola', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Watch a movie', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Learn a new skill', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Call a friend', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Go for a walk', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Review goals', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Plan your day', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Practice a hobby', completed: false, quantity: 0, value: 0 },
+    { id: crypto.randomUUID(), label: 'Organize your space', completed: false, quantity: 0, value: 0 },
   ];
 
   selectedOptions: TodoItem[] = [];

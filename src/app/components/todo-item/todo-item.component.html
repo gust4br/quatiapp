@@ -1,24 +1,61 @@
 <div class="relative">
-	@if (showBackdrop) {
-	<div class="absolute inset-0 bg-red-200 -z-[1] rounded-xl flex items-center justify-end px-4 py-3">🗑️</div>
-	}
-	<label
-	class="flex items-center gap-2 rounded-lg bg-stone-200 px-4 py-3 select-none active:brightness-105"
-	cdkDrag
-	cdkDragLockAxis="x"
-	(cdkDragEnded)="onDragEnd($event)"
-	(cdkDragMoved)="onDragMoved($event)"
-	>
-		<app-checkbox [active]="todo()!.completed" (check)="onCheckboxChange()" />
-		<span class="w-full">{{ todo()!.label }}</span>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-4 w-4 fill-stone-600"
-			viewBox="0 0 256 256"
-		>
-			<path
-			d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z"
-			></path>
-		</svg>
-	</label>
+  @if (showBackdrop) {
+    <div
+      class="absolute inset-0 bg-red-200 -z-[1] rounded-xl flex items-center justify-end px-4 py-3"
+    >
+      🗑️
+    </div>
+  }
+  <div
+    class="flex flex-col gap-2 rounded-lg bg-stone-200 px-4 py-3 select-none"
+    cdkDrag
+    cdkDragLockAxis="x"
+    (cdkDragEnded)="onDragEnd($event)"
+    (cdkDragMoved)="onDragMoved($event)"
+  >
+    <label class="flex items-center gap-2 w-full">
+      <app-checkbox [active]="todo.completed" (check)="onCheckboxChange()" />
+      <span class="w-full">{{ todo.label }}</span>
+    </label>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-1">
+        <div class="flex items-center">
+          <button
+            class="h-9 rounded-l border border-r-0 border-stone-300 bg-stone-100 px-2 py-1 cursor-pointer"
+            type="button"
+            (click)="changeQuantity(1)"
+          >
+            +
+          </button>
+          <input
+            type="text"
+            class="h-9 bg-white w-10 text-center border border-stone-300 px-2 py-1 placeholder:text-stone-400"
+            [value]="quantity()"
+            readonly
+          />
+          <button
+            class="h-9 rounded-r border border-l-0 border-stone-300 bg-stone-100 px-2 py-1 cursor-pointer"
+            type="button"
+            (click)="changeQuantity(-1)"
+          >
+            -
+          </button>
+        </div>
+        <span>*</span>
+        <label class="flex items-center">
+          <span
+            class="h-9 px-2 py-1 block rounded-l border border-stone-300 bg-stone-100"
+            >R$</span
+          >
+          <input
+            type="text"
+            class="h-9 w-20 bg-white rounded-r border border-l-0 border-stone-300 px-2 py-1 placeholder:text-stone-400"
+            [value]="value()"
+            (blur)="changeValue($event.target.value)"
+          />
+        </label>
+      </div>
+	<span>= {{ getTotalValue() }}</span>
+    </div>
+  </div>
 </div>

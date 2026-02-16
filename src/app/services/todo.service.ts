@@ -19,15 +19,17 @@ export class TodoService {
     return this.storageService.get() ?? [];
   }
 
-  push(value: string) {
-    const todo: TodoItem = {
+  push(todo: TodoItem) {
+    const newTodo: TodoItem = {
       id: crypto.randomUUID(),
-      label: value,
+      label: todo.label,
+      quantity: todo.quantity,
+      value: todo.value,
       completed: false
     };
 
     const storage = this.storageService.get() || [];
-    storage.push(todo);
+    storage.push(newTodo);
     this.storageService.set(storage);
   }
 
@@ -53,6 +55,18 @@ export class TodoService {
     const todoIndex = storage.findIndex(todo => todo.id === id);
     if (todoIndex > -1) {
       storage[todoIndex].completed = !storage[todoIndex].completed;
+      this.storageService.set(storage);
+    }
+  }
+
+  update(todo: TodoItem) {
+    if (!todo.id) return;
+    
+    const storage = this.storageService.get() || [];
+    const todoIndex = storage.findIndex(item => item.id === todo.id);
+    
+    if (todoIndex > -1) {
+      storage[todoIndex] = todo;
       this.storageService.set(storage);
     }
   }

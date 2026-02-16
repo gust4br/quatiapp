@@ -1,0 +1,19 @@
+<div class="border border-stone-300 rounded-lg">
+	<header class="border-b border-stone-300 px-4 py-2">
+		<h2 class="text-lg">Resumo</h2>
+	</header>
+	<main class="px-4 py-3 bg-stone-200 text-sm">
+		<section class="flex items-center justify-between border-b border-stone-300 py-2">
+			<span>Não selecionados</span>
+			<span>= {{ getUnselectedTotal() }}</span>
+		</section>
+		<section class="flex items-center justify-between border-b border-stone-300 py-2">
+			<span>Selecionados</span>
+			<span>= {{ getSelectedTotal() }}</span>
+		</section>
+		<section class="flex items-center justify-between pt-2">
+			<span>Total geral</span>
+			<span>= {{ getGrandTotal() }}</span>
+		</section>
+	</main>
+</div>
