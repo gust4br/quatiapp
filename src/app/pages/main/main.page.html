@@ -1,5 +1,5 @@
-<div class="grid grid-rows-[100px_1fr] w-full sm:w-auto h-screen p-4 sm:p-0">
-  <header class="flex flex-col items-start justify-center w-full">
+<div class="flex flex-col w-full sm:w-auto h-screen p-4 sm:p-0 overflow-y-auto">
+  <header class="flex flex-col items-start justify-center w-full pb-4">
     <h1 class="text-2xl">Minha lista</h1>
     <div class="items-center gap-2 hidden">
       <h2 class="text-amber-400 text-2xl">Thursday 11</h2>
@@ -37,7 +37,7 @@
       </button>
     </div>
   </header>
-  <main class="flex w-full sm:w-auto overflow-y-auto">
+  <main class="flex w-full sm:w-auto">
     <div class="flex flex-col gap-2 w-full">
       @for (todo of todos(); track $index) {
         <app-todo-item
@@ -50,6 +50,8 @@
       }
       <app-todo-form (submitForm)="onSubmit($event)" />
       <app-resume/>
+      <button class="w-full rounded text-white bg-emerald-600 px-3 py-2">Salvar compra</button>
+      <button class="w-full rounded text-red-500 px-3 py-2">Apagar compra</button>
     </div>
   </main>
 </div>
