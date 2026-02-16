@@ -52,6 +52,8 @@
             class="h-9 w-20 bg-white rounded-r border border-l-0 border-stone-300 px-2 py-1 placeholder:text-stone-400"
             [value]="value()"
             (blur)="changeValue($event.target.value)"
+			inputmode="decimal"
+  			autocomplete="off"
           />
         </label>
       </div>

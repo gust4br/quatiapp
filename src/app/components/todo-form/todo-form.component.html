@@ -1,4 +1,8 @@
-<form class="flex flex-col gap-4 bg-stone-200 px-4 py-3 rounded-lg" [formGroup]="form" (submit)="submit($event)">
+<form
+  class="flex flex-col gap-4 bg-stone-200 px-4 py-3 rounded-lg"
+  [formGroup]="form"
+  (submit)="submit($event)"
+>
   <div class="flex items-center justify-between">
     <input
       type="text"
@@ -29,7 +33,7 @@
         -
       </button>
     </div>
-	<span>*</span>
+    <span>*</span>
     <label class="flex items-center">
       <span
         class="h-9 px-2 py-1 block rounded-l border border-stone-300 bg-stone-100"
@@ -39,12 +43,17 @@
         type="text"
         placeholder="0,00"
         formControlName="value"
+        inputmode="decimal"
+        autocomplete="off"
         class="h-9 w-20 bg-white rounded-r border border-l-0 border-stone-300 px-2 py-1 placeholder:text-stone-400"
       />
     </label>
     <span>= {{ getTotalValue() }}</span>
   </div>
-  <button class="h-9 bg-stone-700 text-white rounded px-4 py-1 cursor-pointer" type="submit">
-	Adicionar
+  <button
+    class="h-9 bg-stone-700 text-white rounded px-4 py-1 cursor-pointer"
+    type="submit"
+  >
+    Adicionar
   </button>
 </form>
