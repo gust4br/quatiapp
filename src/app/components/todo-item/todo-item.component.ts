@@ -1,5 +1,5 @@
-import { CdkDragEnd, CdkDragMove, DragDropModule } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
+import { CdkDragEnd, CdkDragMove, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
+import { Component, EventEmitter, Input, OnInit, Output, signal, ViewChild, ElementRef } from '@angular/core';
 import { TodoItem } from '../../types/TodoItem.dto';
 import { CheckboxComponent } from '../checkbox/checkbox.component';
 
@@ -14,6 +14,7 @@ export class TodoItemComponent implements OnInit {
   @Output() check = new EventEmitter<string>();
   @Output() delete = new EventEmitter<string>();
   @Output() updateTodo = new EventEmitter<TodoItem>();
+  @ViewChild('dragContainer') dragContainer!: ElementRef;
 
   quantity = signal(0);
   value = signal<string>('0,00');
@@ -23,6 +24,12 @@ export class TodoItemComponent implements OnInit {
 
   DELETE_THRESHOLD = -200;
   COMPLETE_THRESHOLD = 200;
+  
+  // Variáveis para detectar direção do gesto
+  private startY = 0;
+  private startX = 0;
+  private isDraggingHorizontally = false;
+  private readonly DIRECTION_LOCK_THRESHOLD = 10; // pixels antes de decidir a direção
 
   formatNumberToBRL(value: number): string {
     return new Intl.NumberFormat('pt-BR', {
@@ -72,14 +79,43 @@ export class TodoItemComponent implements OnInit {
     this.emitNewTodo();
   }
 
+  onDragStarted(event: CdkDragStart) {
+    this.startX = event.source.getFreeDragPosition().x;
+    this.startY = 0;
+    this.isDraggingHorizontally = false;
+  }
+
   onDragMoved(event: CdkDragMove) {
-    const x = event.source.getFreeDragPosition().x;
-    if (x < 0) {
-      this.showDeleteBackdrop = true;
-      this.showCompleteBackdrop = false;
-    } else if (x > 0) {
-      this.showCompleteBackdrop = true;
-      this.showDeleteBackdrop = false;
+    const currentX = event.source.getFreeDragPosition().x;
+    const currentY = event.source.getFreeDragPosition().y || 0;
+    
+    // Calcula o deslocamento
+    const deltaX = Math.abs(currentX - this.startX);
+    const deltaY = Math.abs(currentY - this.startY);
+    
+    // Se ainda não decidiu a direção e o movimento é significativo
+    if (!this.isDraggingHorizontally && (deltaX > this.DIRECTION_LOCK_THRESHOLD || deltaY > this.DIRECTION_LOCK_THRESHOLD)) {
+      // Se movimento vertical é muito maior que horizontal, não permite drag
+      if (deltaY > deltaX * 1.5) {
+        event.source.reset();
+        return;
+      }
+      this.isDraggingHorizontally = true;
+    }
+    
+    // Se está fazendo drag horizontal, mostra os backdrops
+    if (this.isDraggingHorizontally) {
+      const x = currentX;
+      if (x < 0) {
+        this.showDeleteBackdrop = true;
+        this.showCompleteBackdrop = false;
+      } else if (x > 0) {
+        this.showCompleteBackdrop = true;
+        this.showDeleteBackdrop = false;
+      } else {
+        this.showDeleteBackdrop = false;
+        this.showCompleteBackdrop = false;
+      }
     } else {
       this.showDeleteBackdrop = false;
       this.showCompleteBackdrop = false;
@@ -87,6 +123,11 @@ export class TodoItemComponent implements OnInit {
   }
 
   onDragEnd(event: CdkDragEnd) {
+    if (!this.isDraggingHorizontally) {
+      event.source.reset();
+      return;
+    }
+
     const x = event.source.getFreeDragPosition().x;
 
     if (x < this.DELETE_THRESHOLD) {

@@ -14,9 +14,11 @@
 	</div>
   }
   <div
+    #dragContainer
     class="flex flex-col gap-2 rounded-lg bg-stone-200 px-4 py-3 select-none"
     cdkDrag
     cdkDragLockAxis="x"
+    (cdkDragStarted)="onDragStarted($event)"
     (cdkDragEnded)="onDragEnd($event)"
     (cdkDragMoved)="onDragMoved($event)"
   >
