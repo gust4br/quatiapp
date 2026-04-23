@@ -53,8 +53,9 @@
     <span>= {{ getTotalValue() }}</span>
   </div>
   <button
-    class="h-9 bg-stone-700 active:bg-stone-800 text-white rounded px-4 py-1 cursor-pointer active:ring-2 ring-stone-700/50 ring-offset-2 ring-offset-stone-200"
+    class="h-9 bg-stone-700 active:bg-stone-800 disabled:opacity-50 text-white rounded px-4 py-1 cursor-pointer active:ring-2 ring-stone-700/50 ring-offset-2 ring-offset-stone-200"
     type="submit"
+    [disabled]="form.invalid"
   >
     Adicionar
   </button>
