@@ -22,29 +22,41 @@ export class MainPage implements OnInit {
   }
 
   onSubmit(todo: TodoItem): void {
-    this.todoService.push(todo);
-    this.todos.update(todos => [...todos, todo]);
+    this.todoService.create(todo).subscribe(() => {
+      this.loadTodos();
+    });
   }
 
   onCheckboxChange(id: string): void {
-    this.todoService.complete(id);
-    this.todos.set(this.todoService.getAll());
+    this.todoService.complete(id).subscribe(() => {
+      this.loadTodos();
+    });
   }
 
   onDelete(id: string): void {
-    this.todoService.remove(id);
-    this.todos.set(this.todoService.getAll());
+    this.todoService.remove(id).subscribe(() => {
+      this.loadTodos();
+    });
   }
 
   onUpdateTodo(newTodo: TodoItem): void {
-    this.todoService.update(newTodo);
-    this.todos.set(this.todoService.getAll());
+    if (!newTodo.id) return;
+    this.todoService.update(newTodo.id, newTodo).subscribe(() => {
+      this.loadTodos();
+    });
+  }
+
+  private loadTodos(): void {
+    this.todoService.getAll().subscribe(todos => {
+      this.todos.set(todos);
+
+      if (todos.length === 0) {
+        this.router.navigate(['/get-started']);
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.todos.set(this.todoService.getAll());
-    if (this.todos().length === 0) {
-      this.router.navigate(['/get-started']);
-    }
+    this.loadTodos();
   }
 }

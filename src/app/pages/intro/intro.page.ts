@@ -15,18 +15,10 @@ export class IntroPage implements OnInit {
   private readonly router = inject(Router);
 
   options: TodoItem[] = [
-    { id: crypto.randomUUID(), label: 'Batata Frita', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Alho', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Arroz', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Coca Cola', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Watch a movie', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Learn a new skill', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Call a friend', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Go for a walk', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Review goals', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Plan your day', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Practice a hobby', completed: false, quantity: 0, value: 0 },
-    { id: crypto.randomUUID(), label: 'Organize your space', completed: false, quantity: 0, value: 0 },
+    { label: 'Batata Frita', completed: false, quantity: 0, value: 0 },
+    { label: 'Alho', completed: false, quantity: 0, value: 0 },
+    { label: 'Arroz', completed: false, quantity: 0, value: 0 },
+    { label: 'Coca Cola', completed: false, quantity: 0, value: 0 },
   ];
 
   selectedOptions: TodoItem[] = [];
@@ -41,13 +33,21 @@ export class IntroPage implements OnInit {
   }
 
   onSubmit() {
-    this.todoService.pushMany(this.selectedOptions);
-    this.router.navigate(['/']);
+    const todos = this.selectedOptions.map(opt => ({
+      label: opt.label,
+      quantity: opt.quantity,
+      value: opt.value
+    }));
+    this.todoService.createMany(todos).subscribe(() => {
+      this.router.navigate(['/']);
+    });
   }
 
   ngOnInit(): void {
-    if (this.todoService.getAll()?.length) {
-      this.router.navigate(['/']);
-    }
+    this.todoService.getAll().subscribe(todos => {
+      if (todos.length) {
+        this.router.navigate(['/']);
+      }
+    });
   }
 }

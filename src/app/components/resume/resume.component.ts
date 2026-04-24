@@ -1,5 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TodoService } from '../../services/todo.service';
+import { TodoItem } from '../../types/TodoItem.dto';
 
 @Component({
   selector: 'app-resume',
@@ -7,7 +9,8 @@ import { TodoService } from '../../services/todo.service';
   templateUrl: './resume.component.html',
 })
 export class ResumeComponent {
-  readonly todoService = inject(TodoService);
+  private readonly todoService = inject(TodoService);
+  todos: Signal<TodoItem[]> = toSignal(this.todoService.getAll(), { initialValue: [] });
 
   formatNumberToBRL(value: number): string {
     return new Intl.NumberFormat('pt-BR', {
@@ -17,7 +20,7 @@ export class ResumeComponent {
   }
 
   getUnselectedTotal(): string {
-    const items = this.todoService.getAll();
+    const items = this.todos();
     const total = items
       .filter(item => !item.completed)
       .reduce((sum, item) => sum + (item.value * item.quantity), 0);
@@ -26,7 +29,7 @@ export class ResumeComponent {
   }
 
   getSelectedTotal(): string {
-    const items = this.todoService.getAll();
+    const items = this.todos();
     const total = items
       .filter(item => item.completed)
       .reduce((sum, item) => sum + (item.value * item.quantity), 0);
@@ -35,7 +38,7 @@ export class ResumeComponent {
   }
 
   getGrandTotal(): string {
-    const items = this.todoService.getAll();
+    const items = this.todos();
     const total = items.reduce((sum, item) => sum + (item.value * item.quantity), 0);
     if (isNaN(total)) return 'R$ 0,00';
     return this.formatNumberToBRL(total);

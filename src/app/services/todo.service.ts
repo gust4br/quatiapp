@@ -1,73 +1,41 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { TodoItem } from '../types/TodoItem.dto';
-import { StorageService } from './storage.service';
+import { environment } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  private readonly storageService = inject(StorageService);
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = environment.apiBaseUrl;
 
-  constructor() { }
-
-  get(id: string) {
-    const storage = this.storageService.get();
-    return storage?.find(todo => todo.id === id) || null;
+  get(id: string): Observable<TodoItem> {
+    return this.http.get<TodoItem>(`${this.baseUrl}/todos/${id}`);
   }
 
-  getAll() {
-    return this.storageService.get() ?? [];
+  getAll(): Observable<TodoItem[]> {
+    return this.http.get<TodoItem[]>(`${this.baseUrl}/todos`);
   }
 
-  push(todo: TodoItem) {
-    const newTodo: TodoItem = {
-      id: crypto.randomUUID(),
-      label: todo.label,
-      quantity: todo.quantity,
-      value: todo.value,
-      completed: false
-    };
-
-    const storage = this.storageService.get() || [];
-    storage.push(newTodo);
-    this.storageService.set(storage);
+  create(todo: Omit<TodoItem, 'id' | 'completed'>): Observable<{ count: number }> {
+    return this.http.post<{ count: number }>(`${this.baseUrl}/todos`, todo);
   }
 
-  pushMany(todos: TodoItem[]) {
-    const storage = this.storageService.get() || [];
-    todos.forEach(todo => {
-      if (!todo.id) {
-        todo.id = crypto.randomUUID();
-      }
-      storage.push(todo);
-    });
-    this.storageService.set(storage);
+  createMany(todos: Omit<TodoItem, 'id' | 'completed'>[]): Observable<{ count: number }> {
+    return this.http.post<{ count: number }>(`${this.baseUrl}/todos`, todos);
   }
 
-  remove(id: string) {
-    const storage = this.storageService.get() || [];
-    const filteredStorage = storage.filter(todo => todo.id !== id);
-    this.storageService.set(filteredStorage);
+  update(id: string, data: Partial<TodoItem>): Observable<TodoItem> {
+    return this.http.patch<TodoItem>(`${this.baseUrl}/todos/${id}`, data);
   }
 
-  complete(id: string) {
-    const storage = this.storageService.get() || [];
-    const todoIndex = storage.findIndex(todo => todo.id === id);
-    if (todoIndex > -1) {
-      storage[todoIndex].completed = !storage[todoIndex].completed;
-      this.storageService.set(storage);
-    }
+  complete(id: string): Observable<TodoItem> {
+    return this.http.patch<TodoItem>(`${this.baseUrl}/todos/${id}/complete`, {});
   }
 
-  update(todo: TodoItem) {
-    if (!todo.id) return;
-    
-    const storage = this.storageService.get() || [];
-    const todoIndex = storage.findIndex(item => item.id === todo.id);
-    
-    if (todoIndex > -1) {
-      storage[todoIndex] = todo;
-      this.storageService.set(storage);
-    }
+  remove(id: string): Observable<{ deleted: boolean }> {
+    return this.http.delete<{ deleted: boolean }>(`${this.baseUrl}/todos/${id}`);
   }
 }
