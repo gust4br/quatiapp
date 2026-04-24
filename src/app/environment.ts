@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiBaseUrl: 'https://api.quatiapp.com'
+  production: false,
+  apiBaseUrl: 'http://localhost:3000'
 };
