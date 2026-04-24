@@ -1,6 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { TodoService } from '../../services/todo.service';
+import { Component, input } from '@angular/core';
 import { TodoItem } from '../../types/TodoItem.dto';
 
 @Component({
@@ -9,8 +7,7 @@ import { TodoItem } from '../../types/TodoItem.dto';
   templateUrl: './resume.component.html',
 })
 export class ResumeComponent {
-  private readonly todoService = inject(TodoService);
-  todos: Signal<TodoItem[]> = toSignal(this.todoService.getAll(), { initialValue: [] });
+  todos = input.required<TodoItem[]>();
 
   formatNumberToBRL(value: number): string {
     return new Intl.NumberFormat('pt-BR', {

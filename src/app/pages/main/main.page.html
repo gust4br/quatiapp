@@ -49,7 +49,7 @@
         ></app-todo-item>
       }
       <app-todo-form (submitForm)="onSubmit($event)" />
-      <app-resume/>
+      <app-resume [todos]="todos()" />
       <!-- <button class="w-full rounded text-white bg-blue-600 active:bg-blue-700 cursor-pointer px-3 py-2 active:ring-2 ring-blue-700/50 ring-offset-2 ring-offset-white">Concluir</button> -->
     </div>
   </main>
