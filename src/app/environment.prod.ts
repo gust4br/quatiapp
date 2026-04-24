@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.quatiapp.com'
+  apiBaseUrl: 'https://quatiapi-production.up.railway.app'
 };
