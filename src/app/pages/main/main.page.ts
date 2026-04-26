@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TodoItem } from '../../types/TodoItem.dto';
 import { TodoItemComponent } from '../../components/todo-item/todo-item.component';
+import { ToastComponent } from '../../components/toast/toast.component';
 import { Router } from '@angular/router';
 import { TodoFormComponent } from "../../components/todo-form/todo-form.component";
 import { ResumeComponent } from "../../components/resume/resume.component";
@@ -14,6 +15,7 @@ import { ResumeComponent } from "../../components/resume/resume.component";
 export class MainPage implements OnInit {
   private readonly router = inject(Router);
   private readonly todoService = inject(TodoService);
+  private readonly toast = inject(ToastComponent);
   todos = signal<TodoItem[]>([]);
   value: string = '';
 
@@ -27,7 +29,11 @@ export class MainPage implements OnInit {
     this.todos.update(current => [...current, optimisticTodo]);
 
     this.todoService.create(todo).subscribe({
-      error: () => this.todos.update(current => current.filter(t => t.id !== tempId))
+      next: () => this.toast.show('Item salvo com sucesso'),
+      error: () => {
+        this.todos.update(current => current.filter(t => t.id !== tempId));
+        this.toast.show('Erro ao salvar item', 'error');
+      }
     });
   }
 
@@ -38,7 +44,11 @@ export class MainPage implements OnInit {
     );
 
     this.todoService.complete(id).subscribe({
-      error: () => this.todos.set(previousTodos)
+      next: () => this.toast.show('Item atualizado com sucesso'),
+      error: () => {
+        this.todos.set(previousTodos);
+        this.toast.show('Erro ao atualizar item', 'error');
+      }
     });
   }
 
@@ -47,7 +57,11 @@ export class MainPage implements OnInit {
     this.todos.update(current => current.filter(t => t.id !== id));
 
     this.todoService.remove(id).subscribe({
-      error: () => this.todos.set(previousTodos)
+      next: () => this.toast.show('Item removido com sucesso'),
+      error: () => {
+        this.todos.set(previousTodos);
+        this.toast.show('Erro ao remover item', 'error');
+      }
     });
   }
 
@@ -59,7 +73,11 @@ export class MainPage implements OnInit {
     );
 
     this.todoService.update(newTodo.id, newTodo).subscribe({
-      error: () => this.todos.set(previousTodos)
+      next: () => this.toast.show('Item atualizado com sucesso'),
+      error: () => {
+        this.todos.set(previousTodos);
+        this.toast.show('Erro ao atualizar item', 'error');
+      }
     });
   }
 
