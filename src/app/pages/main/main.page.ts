@@ -22,27 +22,44 @@ export class MainPage implements OnInit {
   }
 
   onSubmit(todo: TodoItem): void {
-    this.todoService.create(todo).subscribe(() => {
-      this.loadTodos();
+    const tempId = crypto.randomUUID();
+    const optimisticTodo: TodoItem = { ...todo, id: tempId, completed: false };
+    this.todos.update(current => [...current, optimisticTodo]);
+
+    this.todoService.create(todo).subscribe({
+      error: () => this.todos.update(current => current.filter(t => t.id !== tempId))
     });
   }
 
   onCheckboxChange(id: string): void {
-    this.todoService.complete(id).subscribe(() => {
-      this.loadTodos();
+    const previousTodos = this.todos();
+    this.todos.update(current =>
+      current.map(t => t.id === id ? { ...t, completed: !t.completed } : t)
+    );
+
+    this.todoService.complete(id).subscribe({
+      error: () => this.todos.set(previousTodos)
     });
   }
 
   onDelete(id: string): void {
-    this.todoService.remove(id).subscribe(() => {
-      this.loadTodos();
+    const previousTodos = this.todos();
+    this.todos.update(current => current.filter(t => t.id !== id));
+
+    this.todoService.remove(id).subscribe({
+      error: () => this.todos.set(previousTodos)
     });
   }
 
   onUpdateTodo(newTodo: TodoItem): void {
     if (!newTodo.id) return;
-    this.todoService.update(newTodo.id, newTodo).subscribe(() => {
-      this.loadTodos();
+    const previousTodos = this.todos();
+    this.todos.update(current =>
+      current.map(t => t.id === newTodo.id ? { ...t, ...newTodo } : t)
+    );
+
+    this.todoService.update(newTodo.id, newTodo).subscribe({
+      error: () => this.todos.set(previousTodos)
     });
   }
 
