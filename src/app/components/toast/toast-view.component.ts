@@ -8,7 +8,7 @@ import { ToastService, Toast } from './toast.service';
       @for (toast of toastService.toasts(); track toast.id) {
         <button
           type="button"
-          class="boder px-4 py-2 rounded-lg shadow-lg text-white text-sm text-center w-full"
+          class="boder px-4 py-2 rounded-lg shadow-lg text-stone-800 text-sm text-center w-full"
           [class.bg-green-200]="toast.type === 'success'"
           [class.border-green-500]="toast.type === 'success'"
           [class.bg-red-200]="toast.type === 'error'"
