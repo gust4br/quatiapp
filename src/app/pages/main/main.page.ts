@@ -24,14 +24,12 @@ export class MainPage implements OnInit {
   }
 
   onSubmit(todo: TodoItem): void {
-    const tempId = crypto.randomUUID();
-    const optimisticTodo: TodoItem = { ...todo, id: tempId, completed: false };
-    this.todos.update(current => [...current, optimisticTodo]);
-
     this.todoService.create(todo).subscribe({
-      next: () => this.toast.show('Item salvo com sucesso'),
+      next: () => {
+        this.loadTodos();
+        this.toast.show('Item salvo com sucesso');
+      },
       error: () => {
-        this.todos.update(current => current.filter(t => t.id !== tempId));
         this.toast.show('Erro ao salvar item', 'error');
       }
     });

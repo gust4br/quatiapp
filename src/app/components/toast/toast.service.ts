@@ -4,6 +4,7 @@ export interface Toast {
   id: number;
   message: string;
   type: 'success' | 'error';
+  removing?: boolean;
 }
 
 @Injectable({
@@ -20,6 +21,11 @@ export class ToastService {
   }
 
   private remove(id: number): void {
-    this.toasts.update(current => current.filter(t => t.id !== id));
+    this.toasts.update(current =>
+      current.map(t => t.id === id ? { ...t, removing: true } : t)
+    );
+    setTimeout(() => {
+      this.toasts.update(current => current.filter(t => t.id !== id));
+    }, 300);
   }
 }
