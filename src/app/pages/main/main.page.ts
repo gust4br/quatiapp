@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TodoItem } from '../../types/TodoItem.dto';
 import { TodoItemComponent } from '../../components/todo-item/todo-item.component';
-import { ToastComponent } from '../../components/toast/toast.component';
+import { ToastService } from '../../components/toast/toast.service';
 import { Router } from '@angular/router';
 import { TodoFormComponent } from "../../components/todo-form/todo-form.component";
 import { ResumeComponent } from "../../components/resume/resume.component";
@@ -15,7 +15,7 @@ import { ResumeComponent } from "../../components/resume/resume.component";
 export class MainPage implements OnInit {
   private readonly router = inject(Router);
   private readonly todoService = inject(TodoService);
-  private readonly toast = inject(ToastComponent);
+  private readonly toast = inject(ToastService);
   todos = signal<TodoItem[]>([]);
   value: string = '';
 
