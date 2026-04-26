@@ -20,7 +20,7 @@ export class ToastService {
     setTimeout(() => this.remove(id), 3000);
   }
 
-  private remove(id: number): void {
+  remove(id: number): void {
     this.toasts.update(current =>
       current.map(t => t.id === id ? { ...t, removing: true } : t)
     );
