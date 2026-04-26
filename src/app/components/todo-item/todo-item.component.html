@@ -10,7 +10,11 @@
     <div
       class="absolute inset-0 bg-green-200 -z-[1] rounded-xl flex items-center justify-start px-4 py-3"
     >
-      ✅
+      @if (todo.completed) {
+        ↩️
+      } @else {
+        ✅
+      }
     </div>
   }
   <div
