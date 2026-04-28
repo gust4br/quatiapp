@@ -24,57 +24,67 @@ export class MainPage implements OnInit {
   }
 
   onSubmit(todo: TodoItem): void {
+    const label = todo.label || 'Tarefa';
     this.todoService.create(todo).subscribe({
       next: () => {
         this.loadTodos();
-        this.toast.show('Item salvo com sucesso');
+        this.toast.show(`✅ "${label}" adicionada à lista!`);
       },
       error: () => {
-        this.toast.show('Erro ao salvar item', 'error');
+        this.toast.show('❌ Falha ao salvar', 'error');
       }
     });
   }
 
   onCheckboxChange(id: string): void {
+    const todo = this.todos().find(t => t.id === id);
+    const wasAlreadyCompleted = todo?.completed;
+    const label = todo?.label || 'Tarefa';
+    const emoji = wasAlreadyCompleted ? '↩️' : '✅';
+    const message = wasAlreadyCompleted ? `${emoji} "${label}" desmarcada!` : `${emoji} "${label}" concluída!`;
+
     const previousTodos = this.todos();
     this.todos.update(current =>
       current.map(t => t.id === id ? { ...t, completed: !t.completed } : t)
     );
 
     this.todoService.complete(id).subscribe({
-      next: () => this.toast.show('Item atualizado com sucesso'),
+      next: () => this.toast.show(message),
       error: () => {
         this.todos.set(previousTodos);
-        this.toast.show('Erro ao atualizar item', 'error');
+        this.toast.show('❌ Falha ao atualizar', 'error');
       }
     });
   }
 
   onDelete(id: string): void {
+    const todo = this.todos().find(t => t.id === id);
+    const label = todo?.label || 'Tarefa';
     const previousTodos = this.todos();
     this.todos.update(current => current.filter(t => t.id !== id));
 
     this.todoService.remove(id).subscribe({
-      next: () => this.toast.show('Item removido com sucesso'),
+      next: () => this.toast.show(`🗑️ "${label}" removida!`),
       error: () => {
         this.todos.set(previousTodos);
-        this.toast.show('Erro ao remover item', 'error');
+        this.toast.show('❌ Falha ao remover', 'error');
       }
     });
   }
 
   onUpdateTodo(newTodo: TodoItem): void {
     if (!newTodo.id) return;
+    const label = newTodo.label || 'Tarefa';
     const previousTodos = this.todos();
     this.todos.update(current =>
       current.map(t => t.id === newTodo.id ? { ...t, ...newTodo } : t)
     );
 
     this.todoService.update(newTodo.id, newTodo).subscribe({
-      next: () => this.toast.show('Item atualizado com sucesso'),
+      next: () => this.toast.show(`✏️ "${label}" atualizada!`),
       error: () => {
         this.todos.set(previousTodos);
-        this.toast.show('Erro ao atualizar item', 'error');
+        this.toast.show('❌ Falha ao atualizar', 'error');
       }
     });
   }
