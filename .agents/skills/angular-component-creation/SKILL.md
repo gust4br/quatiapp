@@ -1,3 +1,8 @@
+---
+name: angular-component-creation
+description: Create Angular components, pages, or directives following Quatiapp project conventions
+---
+
 # Angular Component Creation
 
 ## When to use

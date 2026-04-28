@@ -1,3 +1,8 @@
+---
+name: tailwind-styling
+description: Style components with Tailwind CSS following Quatiapp project conventions
+---
+
 # Tailwind CSS Styling
 
 ## When to use
