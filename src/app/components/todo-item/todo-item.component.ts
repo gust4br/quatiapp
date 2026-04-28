@@ -72,7 +72,7 @@ export class TodoItemComponent implements OnInit {
     const numValue = this.formatBRLToNumber(newValue);
     if (isNaN(numValue) || numValue < 0) return;
 
-    this.value.set(newValue);
+    this.value.set(newValue.trim());
     this.emitNewTodo();
   }
 
