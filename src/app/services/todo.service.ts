@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TodoItem } from '../types/TodoItem.dto';
+import { CreateTodoDto, UpdateTodoDto } from '../types/todo.dto';
 import { environment } from '../environment';
 
 @Injectable({
@@ -19,15 +20,15 @@ export class TodoService {
     return this.http.get<TodoItem[]>(`${this.baseUrl}/todos`);
   }
 
-  create(todo: Omit<TodoItem, 'id' | 'completed'>): Observable<{ count: number }> {
+  create(todo: CreateTodoDto): Observable<{ count: number }> {
     return this.http.post<{ count: number }>(`${this.baseUrl}/todos`, todo);
   }
 
-  createMany(todos: Omit<TodoItem, 'id' | 'completed'>[]): Observable<{ count: number }> {
+  createMany(todos: CreateTodoDto[]): Observable<{ count: number }> {
     return this.http.post<{ count: number }>(`${this.baseUrl}/todos`, todos);
   }
 
-  update(id: string, data: Partial<TodoItem>): Observable<TodoItem> {
+  update(id: string, data: UpdateTodoDto): Observable<TodoItem> {
     return this.http.patch<TodoItem>(`${this.baseUrl}/todos/${id}`, data);
   }
 

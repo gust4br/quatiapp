@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TodoItem } from '../../types/TodoItem.dto';
+import { CreateTodoDto, UpdateTodoDto } from '../../types/todo.dto';
 import { TodoItemComponent } from '../../components/todo-item/todo-item.component';
 import { ToastService } from '../../components/toast/toast.service';
 import { Router } from '@angular/router';
@@ -23,7 +24,7 @@ export class MainPage implements OnInit {
     this.value = value;
   }
 
-  onSubmit(todo: TodoItem): void {
+  onSubmit(todo: CreateTodoDto): void {
     const label = todo.label || 'Tarefa';
     this.todoService.create(todo).subscribe({
       next: () => {
@@ -80,7 +81,14 @@ export class MainPage implements OnInit {
       current.map(t => t.id === newTodo.id ? { ...t, ...newTodo } : t)
     );
 
-    this.todoService.update(newTodo.id, newTodo).subscribe({
+    const updateDto: UpdateTodoDto = {
+      label: newTodo.label,
+      quantity: newTodo.quantity,
+      value: newTodo.value,
+      completed: newTodo.completed
+    };
+
+    this.todoService.update(newTodo.id, updateDto).subscribe({
       next: () => this.toast.show(`✏️ "${label}" atualizada!`),
       error: () => {
         this.todos.set(previousTodos);

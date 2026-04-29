@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TodoItem } from '../../types/TodoItem.dto';
+import { CreateTodoDto } from '../../types/todo.dto';
 
 @Component({
   selector: 'app-todo-form',
@@ -8,7 +8,7 @@ import { TodoItem } from '../../types/TodoItem.dto';
   templateUrl: './todo-form.component.html',
 })
 export class TodoFormComponent {
-  @Output() submitForm = new EventEmitter<TodoItem>();
+  @Output() submitForm = new EventEmitter<CreateTodoDto>();
   private readonly formBuilder = inject(FormBuilder);
   form: FormGroup = this.formBuilder.group({
     label: ['', Validators.required],
@@ -58,7 +58,7 @@ export class TodoFormComponent {
     event.preventDefault();
     if (!this.form.valid) return;
 
-    const formValue = this.form.value as TodoItem;
+    const formValue = this.form.value as CreateTodoDto;
     
     if (typeof formValue.value === 'string') {
       formValue.value = this.formatBRLToNumber(formValue.value);
