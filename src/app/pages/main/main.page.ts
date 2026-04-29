@@ -41,7 +41,7 @@ export class MainPage implements OnInit {
     const wasAlreadyCompleted = todo?.completed;
     const label = todo?.label || 'Tarefa';
     const emoji = wasAlreadyCompleted ? '↩️' : '✅';
-    const message = wasAlreadyCompleted ? `${emoji} "${label}" desmarcada!` : `${emoji} "${label}" concluída!`;
+    const message = wasAlreadyCompleted ? `${emoji} "${label}" desmarcado!` : `${emoji} "${label}" concluído!`;
 
     const previousTodos = this.todos();
     this.todos.update(current =>
@@ -64,7 +64,7 @@ export class MainPage implements OnInit {
     this.todos.update(current => current.filter(t => t.id !== id));
 
     this.todoService.remove(id).subscribe({
-      next: () => this.toast.show(`🗑️ "${label}" removida!`),
+      next: () => this.toast.show(`🗑️ "${label}" removido!`),
       error: () => {
         this.todos.set(previousTodos);
         this.toast.show('❌ Falha ao remover', 'error');
